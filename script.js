@@ -276,49 +276,98 @@ const initSettings = () => {
     };
 
     // 書き出し（エクスポート）
-    document.getElementById('export-settings').onclick = () => {
+    document.getElementById('export-settings').onclick = async () => {
         const banks = getBanks();
         const dataStr = JSON.stringify(banks, null, 2);
+        const date = new Date().toISOString().split('T')[0];
+        const fileName = `fp_araki_settings_${date}.json`;
+
+        // Modern File System Access API
+        if ('showSaveFilePicker' in window) {
+            try {
+                const handle = await window.showSaveFilePicker({
+                    suggestedName: fileName,
+                    types: [{
+                        description: 'JSON File',
+                        accept: { 'application/json': ['.json'] },
+                    }],
+                });
+                const writable = await handle.createWritable();
+                await writable.write(dataStr);
+                await writable.close();
+                showSaveBanner();
+            } catch (err) {
+                if (err.name !== 'AbortError') console.error(err);
+            }
+            return;
+        }
+
+        // Fallback for older browsers
         const blob = new Blob([dataStr], { type: 'application/json' });
         const url = URL.createObjectURL(blob);
         const a = document.createElement('a');
-        const date = new Date().toISOString().split('T')[0];
         a.href = url;
-        a.download = `fp_araki_settings_${date}.json`;
+        a.download = fileName;
         document.body.appendChild(a);
         a.click();
         document.body.removeChild(a);
         URL.revokeObjectURL(url);
     };
 
-    // 取り込み（インポート）のトリガー
-    const fileInput = document.getElementById('import-file');
-    document.getElementById('import-trigger').onclick = () => fileInput.click();
-
-    fileInput.onchange = (e) => {
-        const file = e.target.files[0];
-        if (!file) return;
-
-        const reader = new FileReader();
-        reader.onload = (event) => {
+    // 取り込み（インポート）
+    document.getElementById('import-trigger').onclick = async () => {
+        // Modern File System Access API
+        if ('showOpenFilePicker' in window) {
             try {
-                const imported = JSON.parse(event.target.result);
-                // 簡易バリデーション
-                if (!Array.isArray(imported)) throw new Error('Invalid format');
-
-                if (confirm('設定を上書きして読み込みますか？')) {
-                    saveBanks(imported);
-                    render();
-                    showSaveBanner();
-                }
+                const [handle] = await window.showOpenFilePicker({
+                    types: [{
+                        description: 'JSON File',
+                        accept: { 'application/json': ['.json'] },
+                    }],
+                    multiple: false
+                });
+                const file = await handle.getFile();
+                const content = await file.text();
+                processImport(content);
             } catch (err) {
-                alert('設定ファイルの読み込みに失敗しました。ファイル形式を確認してください。');
-                console.error(err);
+                if (err.name !== 'AbortError') console.error(err);
             }
-            e.target.value = ''; // Reset input
-        };
-        reader.readAsText(file);
+            return;
+        }
+
+        // Fallback
+        document.getElementById('import-file').click();
     };
+
+    const processImport = (content) => {
+        try {
+            const imported = JSON.parse(content);
+            if (!Array.isArray(imported)) throw new Error('Invalid format');
+
+            if (confirm('設定を上書きして読み込みますか？')) {
+                saveBanks(imported);
+                render();
+                showSaveBanner();
+            }
+        } catch (err) {
+            alert('設定ファイルの読み込みに失敗しました。ファイル形式を確認してください。');
+            console.error(err);
+        }
+    };
+
+    const fileInput = document.getElementById('import-file');
+    if (fileInput) {
+        fileInput.onchange = (e) => {
+            const file = e.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (event) => {
+                processImport(event.target.result);
+                e.target.value = ''; // Reset input
+            };
+            reader.readAsText(file);
+        };
+    }
 
     render();
 };
