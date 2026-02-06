@@ -275,6 +275,51 @@ const initSettings = () => {
         window.scrollTo(0, document.body.scrollHeight);
     };
 
+    // 書き出し（エクスポート）
+    document.getElementById('export-settings').onclick = () => {
+        const banks = getBanks();
+        const dataStr = JSON.stringify(banks, null, 2);
+        const blob = new Blob([dataStr], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        const date = new Date().toISOString().split('T')[0];
+        a.href = url;
+        a.download = `fp_araki_settings_${date}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    };
+
+    // 取り込み（インポート）のトリガー
+    const fileInput = document.getElementById('import-file');
+    document.getElementById('import-trigger').onclick = () => fileInput.click();
+
+    fileInput.onchange = (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const imported = JSON.parse(event.target.result);
+                // 簡易バリデーション
+                if (!Array.isArray(imported)) throw new Error('Invalid format');
+
+                if (confirm('設定を上書きして読み込みますか？')) {
+                    saveBanks(imported);
+                    render();
+                    showSaveBanner();
+                }
+            } catch (err) {
+                alert('設定ファイルの読み込みに失敗しました。ファイル形式を確認してください。');
+                console.error(err);
+            }
+            e.target.value = ''; // Reset input
+        };
+        reader.readAsText(file);
+    };
+
     render();
 };
 

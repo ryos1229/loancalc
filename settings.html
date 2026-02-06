@@ -175,7 +175,13 @@
             <div
                 style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                 <p class="subtitle" style="margin-bottom: 0;">各金融機関の審査基準をカスタマイズできます。</p>
-                <button id="reset-defaults" class="reset-btn">初期値に戻す</button>
+                <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button id="export-settings" class="reset-btn"
+                        style="border-color: var(--primary); color: var(--primary);">設定を書き出し</button>
+                    <button id="import-trigger" class="reset-btn">設定を取り込み</button>
+                    <input type="file" id="import-file" style="display: none;" accept=".json">
+                    <button id="reset-defaults" class="reset-btn">初期値に戻す</button>
+                </div>
             </div>
         </div>
 
