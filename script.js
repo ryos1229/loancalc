@@ -89,6 +89,31 @@ const initCalculator = () => {
     const form = document.getElementById('calc-form');
     if (!form) return;
 
+    const printBtn = document.getElementById('print-btn');
+    const pdfBtn = document.getElementById('pdf-btn');
+    const actions = document.getElementById('results-actions');
+    const printSummary = document.getElementById('print-summary');
+
+    const handlePrint = () => {
+        const incomeMan = document.getElementById('income').value;
+        const debtMan = document.getElementById('debt').value || 0;
+        const years = document.getElementById('years').value;
+
+        if (printSummary) {
+            printSummary.innerHTML = `
+                <p><b>■ 試算条件</b></p>
+                <p>昨年の税込年収: <b>${incomeMan} 万円</b></p>
+                <p>現在の借入の年間返済額: <b>${debtMan} 万円/年</b></p>
+                <p>希望ローン年数: <b>${years} 年</b></p>
+                <p style="margin-top: 0.5rem; font-size: 0.8rem; text-align: right;">試算日: ${new Date().toLocaleDateString('ja-JP')}</p>
+            `;
+        }
+        window.print();
+    };
+
+    if (printBtn) printBtn.addEventListener('click', handlePrint);
+    if (pdfBtn) pdfBtn.addEventListener('click', handlePrint); // Browser treats PDF as Print
+
     form.addEventListener('submit', (e) => {
         e.preventDefault();
         const incomeMan = parseFloat(document.getElementById('income').value);
@@ -98,6 +123,9 @@ const initCalculator = () => {
         const emptyState = document.getElementById('empty-state');
 
         if (!incomeMan || !years || !resultContainer) return;
+
+        // Show actions
+        if (actions) actions.style.display = 'flex';
 
         const income = incomeMan * 10000;
         const currentDebt = debtMan * 10000;

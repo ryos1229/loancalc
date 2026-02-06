@@ -279,6 +279,160 @@ button.calculate-btn:active {
     box-shadow: 0 15px 30px rgba(0, 0, 0, 0.4);
 }
 
+/* Action Buttons */
+.results-actions {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 0.5rem;
+    justify-content: flex-end;
+}
+
+.action-btn {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    padding: 0.6rem 1.2rem;
+    border-radius: 10px;
+    border: 1px solid var(--glass-border);
+    background: rgba(255, 255, 255, 0.05);
+    color: var(--text-main);
+    font-size: 0.9rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.action-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    transform: translateY(-1px);
+}
+
+.action-btn.pdf {
+    background: rgba(99, 102, 241, 0.1);
+    border-color: rgba(99, 102, 241, 0.3);
+    color: #a5b4fc;
+}
+
+.action-btn.pdf:hover {
+    background: rgba(99, 102, 241, 0.2);
+}
+
+/* Print Styles */
+@media print {
+    @page {
+        size: A4;
+        margin: 15mm;
+    }
+
+    body {
+        background: white !important;
+        color: #1e293b !important;
+        display: block !important;
+        padding: 0 !important;
+    }
+
+    .container {
+        display: block !important;
+        max-width: 100% !important;
+    }
+
+    .input-section {
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 0 !important;
+        margin-bottom: 2rem !important;
+        backdrop-filter: none !important;
+    }
+
+    h1 {
+        background: none !important;
+        -webkit-background-clip: initial !important;
+        background-clip: initial !important;
+        color: #1e293b !important;
+        font-size: 2rem !important;
+        margin-bottom: 1rem !important;
+    }
+
+    .subtitle,
+    .input-section form,
+    .input-section p:not(.subtitle),
+    .results-actions,
+    .back-to-top,
+    .empty-state,
+    #back-to-top {
+        display: none !important;
+    }
+
+    /* Show input values summary instead of form */
+    .print-summary {
+        display: block !important;
+        margin-bottom: 2rem;
+        padding: 1rem;
+        background: #f8fafc;
+        border-radius: 8px;
+        border: 1px solid #e2e8f0;
+    }
+
+    .print-summary p {
+        margin-bottom: 0.5rem;
+        font-size: 1rem;
+        color: #475569;
+    }
+
+    .print-summary b {
+        color: #1e293b;
+    }
+
+    .results-section {
+        gap: 0.5rem !important;
+    }
+
+    .result-card {
+        background: white !important;
+        border: 1px solid #e2e8f0 !important;
+        box-shadow: none !important;
+        color: #1e293b !important;
+        margin-bottom: 10px !important;
+        padding: 1rem !important;
+        break-inside: avoid;
+        animation: none !important;
+        opacity: 1 !important;
+        transform: none !important;
+        display: flex !important;
+        flex-direction: row !important;
+        justify-content: space-between !important;
+        align-items: center !important;
+    }
+
+    .bank-name {
+        color: #1e293b !important;
+    }
+
+    .bank-details {
+        color: #64748b !important;
+    }
+
+    .badge {
+        background: #f1f5f9 !important;
+        color: #475569 !important;
+        border: 1px solid #e2e8f0 !important;
+    }
+
+    .loan-amount {
+        color: #059669 !important;
+    }
+
+    .loan-amount span {
+        color: #64748b !important;
+    }
+}
+
+/* Print Summary (hidden normally) */
+.print-summary {
+    display: none;
+}
+
 @media (max-width: 600px) {
     .back-to-top {
         bottom: 1.5rem;
