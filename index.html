@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FP荒木くん</title>
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+    <div class="container">
+        <!-- Input Section -->
+        <div class="card input-section">
+            <div>
+                <div style="display: flex; justify-content: space-between; align-items: start;">
+                    <h1>FP荒木くん</h1>
+                    <a href="settings.html"
+                        style="color: var(--text-muted); padding: 0.5rem; border-radius: 50%; background: rgba(255,255,255,0.05); display:flex; align-items:center; justify-content:center; transition: all 0.2s;"
+                        title="設定">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path
+                                d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                            </path>
+                        </svg>
+                    </a>
+                </div>
+                <p class="subtitle">年収と現在の借入状況から、主要な銀行タイプごとの借入可能額を瞬時に計算します。</p>
+            </div>
+
+            <form id="calc-form">
+                <div class="form-group">
+                    <label for="income">昨年の税込年収</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="income" placeholder="例: 500" min="0" required>
+                        <span class="unit">万円</span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="debt">現在の借入の年間返済額</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="debt" placeholder="例: 0" min="0" value="0">
+                        <span class="unit">万円/年</span>
+                    </div>
+                    <!-- Note for user -->
+                    <div style="font-size: 0.8rem; color: #64748b; margin-top: 0.2rem;">
+                        ※車のローン、カードローン等の年間支払い総額
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="years">希望ローン年数</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="years" value="35" min="1" max="50" required>
+                        <span class="unit">年</span>
+                    </div>
+                </div>
+
+                <button type="submit" class="calculate-btn">計算する</button>
+            </form>
+        </div>
+
+        <!-- Results Section -->
+        <div class="results-section" id="results-container">
+            <div class="empty-state" id="empty-state">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5"
+                        d="M9 7h6m0 10v-3m-3 3h.01M9 17h.01M9 14h.01M12 14h.01M15 11h.01M12 11h.01M9 11h.01M7 21h10a2 2 0 002-2V5a2 2 0 00-2-2H7a2 2 0 00-2 2v14a2 2 0 002 2z" />
+                </svg>
+                <p>左側のフォームに必要な情報を入力して<br>「計算する」ボタンを押してください</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>

@@ -1,0 +1,534 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>設定 | FP荒木くん</title>
+    <link href="style.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&display=swap" rel="stylesheet">
+    <style>
+        .settings-container {
+            max-width: 800px;
+            margin: 0 auto;
+            padding-bottom: 100px;
+            /* Space for FAB or just padding */
+        }
+
+        .header-actions {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .back-link {
+            color: var(--text-muted);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .back-link:hover {
+            color: var(--primary);
+        }
+
+        .bank-setting-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 16px;
+            padding: 1.5rem;
+            margin-bottom: 1rem;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+            align-items: end;
+            position: relative;
+            transition: transform 0.2s;
+        }
+
+        @media (max-width: 600px) {
+            .bank-setting-card {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .bank-header {
+            grid-column: 1 / -1;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.5rem;
+            padding-right: 2rem;
+            /* Space for delete button */
+        }
+
+        .color-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .delete-btn {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            background: rgba(220, 38, 38, 0.1);
+            color: #ef4444;
+            border: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: rgba(220, 38, 38, 0.2);
+            transform: scale(1.05);
+        }
+
+        /* Add Bank Form */
+        .add-bank-section {
+            margin-top: 3rem;
+            padding-top: 2rem;
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .add-card {
+            border: 2px dashed var(--glass-border);
+            background: rgba(30, 41, 59, 0.3);
+        }
+
+        .row {
+            display: flex;
+            gap: 1.5rem;
+            /* Increased gap */
+            flex-wrap: wrap;
+            /* Allow wrapping */
+        }
+
+        .row>.form-group {
+            flex: 1;
+            min-width: 140px;
+            /* Ensure minimum width */
+        }
+
+        @media (max-width: 600px) {
+            .row {
+                flex-direction: column;
+            }
+        }
+
+        .save-banner {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background: var(--success);
+            color: white;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+            transform: translateY(150%);
+            transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            z-index: 100;
+        }
+
+        .save-banner.show {
+            transform: translateY(0);
+        }
+
+        .reset-btn {
+            background: transparent;
+            border: 1px solid var(--glass-border);
+            color: var(--text-muted);
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .reset-btn:hover {
+            border-color: var(--text-muted);
+            color: var(--text-main);
+        }
+
+        .btn-primary {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            width: 100%;
+            margin-top: 1rem;
+        }
+
+        .btn-primary:hover {
+            background: var(--primary-hover);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container settings-container">
+        <div class="header-actions">
+            <a href="index.html" class="back-link">
+                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+                    stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                    <path d="M19 12H5M12 19l-7-7 7-7" />
+                </svg>
+                シミュレーターに戻る
+            </a>
+            <h1>審査基準設定</h1>
+        </div>
+
+        <div class="card" style="margin-bottom: 2rem;">
+            <div
+                style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
+                <p class="subtitle" style="margin-bottom: 0;">各金融機関の審査基準をカスタマイズできます。</p>
+                <button id="reset-defaults" class="reset-btn">初期値に戻す</button>
+            </div>
+        </div>
+
+        <div id="settings-list">
+            <!-- Bank settings injected here -->
+        </div>
+
+        <!-- Add Bank Form -->
+        <div class="add-bank-section">
+            <h2 style="margin-bottom: 1.5rem; font-size: 1.4rem;">新規銀行を追加</h2>
+            <div class="card add-card">
+                <form id="add-bank-form">
+                    <div class="form-group" style="margin-bottom: 1rem;">
+                        <label>銀行名</label>
+                        <div class="input-wrapper">
+                            <input type="text" id="new-name" placeholder="例: ○○銀行" required>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 1rem;">
+                        <div class="form-group">
+                            <label>タイプ</label>
+                            <div class="input-wrapper">
+                                <select id="new-type"
+                                    style="width: 100%; background: transparent; border: none; color: var(--text-main); font-size: 1.1rem; font-weight: 500; outline: none;">
+                                    <option value="都市銀行" style="background: #1e293b;">都市銀行</option>
+                                    <option value="地方銀行" style="background: #1e293b;">地方銀行</option>
+                                    <option value="信託銀行" style="background: #1e293b;">信託銀行</option>
+                                    <option value="協同組合" style="background: #1e293b;">協同組合</option>
+                                    <option value="労働金庫" style="background: #1e293b;">労働金庫</option>
+                                    <option value="ネット銀行" style="background: #1e293b;">ネット銀行</option>
+                                    <option value="信用金庫・組合" style="background: #1e293b;">信用金庫・組合</option>
+                                    <option value="その他" style="background: #1e293b;">その他</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>カラー</label>
+                            <div class="input-wrapper">
+                                <input type="color" id="new-color" value="#6366f1"
+                                    style="height: 50px; padding: 0.5rem;">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" style="margin-bottom: 1rem;">
+                        <div class="form-group">
+                            <label>審査金利 (%)</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="new-stress" step="0.001" value="3.5" required>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div style="background: rgba(0,0,0,0.2); padding: 1rem; border-radius: 12px; margin-bottom: 1rem;">
+                        <label style="display:block; margin-bottom:0.5rem; color: var(--text-muted);">返済比率設定</label>
+                        <div class="row">
+                            <div class="form-group">
+                                <label>基準年収 (万円)</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="new-threshold" value="400" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>未満 (%)</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="new-ratio-below" step="1" value="30" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label>以上 (%)</label>
+                                <div class="input-wrapper">
+                                    <input type="number" id="new-ratio-above" step="1" value="35" required>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-primary">追加する</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div id="save-banner" class="save-banner">
+        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="20 6 9 17 4 12" />
+        </svg>
+        設定を保存しました
+    </div>
+
+    <script src="script.js"></script>
+    <script>
+        if (window.location.pathname.endsWith('settings.html')) {
+            const container = document.getElementById('settings-list');
+
+            const createInput = (label, value, suffix, onChange) => {
+                const group = document.createElement('div');
+                group.className = 'form-group';
+                const labelEl = document.createElement('label');
+                labelEl.textContent = label;
+                const wrapper = document.createElement('div');
+                wrapper.className = 'input-wrapper';
+                const input = document.createElement('input');
+                input.type = 'number';
+                input.value = value;
+                input.step = '0.001';
+                input.addEventListener('change', (e) => onChange(e.target.value));
+                const unit = document.createElement('span');
+                unit.className = 'unit';
+                unit.textContent = suffix;
+                wrapper.appendChild(input);
+                wrapper.appendChild(unit);
+                group.appendChild(labelEl);
+                group.appendChild(wrapper);
+                return group;
+            };
+
+            const BANK_TYPES = ['都市銀行', '地方銀行', '信託銀行', '協同組合', '労働金庫', 'ネット銀行', '信用金庫・組合', 'その他'];
+
+            const createSelectInput = (label, value, options, onChange) => {
+                const group = document.createElement('div');
+                group.className = 'form-group';
+                const labelEl = document.createElement('label');
+                labelEl.textContent = label;
+                const wrapper = document.createElement('div');
+                wrapper.className = 'input-wrapper';
+                const select = document.createElement('select');
+
+                // Add select styling
+                select.style.width = '100%';
+                select.style.background = 'transparent';
+                select.style.border = 'none';
+                select.style.color = 'var(--text-main)';
+                select.style.fontSize = '1.1rem';
+                select.style.fontWeight = '500';
+                select.style.outline = 'none';
+
+                options.forEach(opt => {
+                    const option = document.createElement('option');
+                    option.value = opt;
+                    option.textContent = opt;
+                    option.style.background = '#1e293b'; // Dark bg for options
+                    if (opt === value) option.selected = true;
+                    select.appendChild(option);
+                });
+
+                select.addEventListener('change', (e) => onChange(e.target.value));
+                wrapper.appendChild(select);
+                group.appendChild(labelEl);
+                group.appendChild(wrapper);
+                return group;
+            };
+
+            const createTextInput = (label, value, onChange) => {
+                const group = document.createElement('div');
+                group.className = 'form-group';
+                const labelEl = document.createElement('label');
+                labelEl.textContent = label;
+                const wrapper = document.createElement('div');
+                wrapper.className = 'input-wrapper';
+                const input = document.createElement('input');
+                input.type = 'text';
+                input.value = value;
+                input.addEventListener('change', (e) => onChange(e.target.value));
+                wrapper.appendChild(input);
+                group.appendChild(labelEl);
+                group.appendChild(wrapper);
+                return group;
+            };
+
+            const renderSettings = () => {
+                const scrollPos = window.scrollY; // Preserve scroll
+                container.innerHTML = '';
+                const banks = getBanks();
+
+                banks.forEach((bank, index) => {
+                    const card = document.createElement('div');
+                    card.className = 'bank-setting-card';
+                    card.style.position = 'relative';
+
+                    // Top Row: Name, Type
+                    const topRow = document.createElement('div');
+                    topRow.className = 'row';
+                    topRow.style.gridColumn = '1 / -1';
+                    topRow.style.marginBottom = '0.5rem';
+                    topRow.style.paddingRight = '2rem'; // Space for delete
+
+                    // Color Dot visual (just for reference, not editable here unless requested, user didn't ask)
+                    // But actually let's just use text inputs. User can use Add New for color.
+
+                    topRow.appendChild(createTextInput('銀行名', bank.name, (val) => updateBank(index, { name: val })));
+
+                    // Use select for Type
+                    // Ensure current type is in options, if not, add it temporarily or map it
+                    let currentOptions = [...BANK_TYPES];
+                    if (!currentOptions.includes(bank.type)) {
+                        currentOptions.push(bank.type);
+                    }
+
+                    topRow.appendChild(createSelectInput('種別', bank.type, currentOptions, (val) => updateBank(index, { type: val })));
+
+                    card.appendChild(topRow);
+
+                    // Delete Button
+                    const deleteBtn = document.createElement('button');
+                    deleteBtn.className = 'delete-btn';
+                    deleteBtn.innerHTML = '<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>';
+                    deleteBtn.title = '削除';
+                    deleteBtn.onclick = () => {
+                        if (confirm(`${bank.name} を削除しますか？`)) {
+                            deleteBank(index);
+                            renderSettings();
+                        }
+                    };
+                    card.appendChild(deleteBtn);
+
+                    // Stress Rate Input
+                    const stressRow = document.createElement('div');
+                    stressRow.style.gridColumn = '1 / -1'; // Full width for consistency
+                    stressRow.appendChild(createInput('審査金利', bank.stressRate, '%', (val) => {
+                        updateBank(index, { stressRate: parseFloat(val) });
+                    }));
+                    card.appendChild(stressRow);
+
+                    // Repayment Ratio Configuration
+                    const ratioConfig = bank.ratioConfig || { threshold: 400, below: 0.30, above: 0.35 }; // Fallback
+
+                    const ratioContainer = document.createElement('div');
+                    ratioContainer.style.gridColumn = '1 / -1';
+                    ratioContainer.style.background = 'rgba(0,0,0,0.2)';
+                    ratioContainer.style.padding = '1rem';
+                    ratioContainer.style.borderRadius = '12px';
+                    ratioContainer.style.marginTop = '0.5rem';
+
+                    const ratioTitle = document.createElement('h4');
+                    ratioTitle.textContent = '返済比率設定';
+                    ratioTitle.style.marginBottom = '0.75rem';
+                    ratioTitle.style.color = 'var(--text-muted)';
+                    ratioTitle.style.fontSize = '0.9rem';
+                    ratioContainer.appendChild(ratioTitle);
+
+                    const grid = document.createElement('div');
+                    grid.style.display = 'grid';
+                    grid.style.gridTemplateColumns = 'repeat(auto-fit, minmax(140px, 1fr))';
+                    grid.style.gap = '1rem';
+
+                    // Threshold
+                    grid.appendChild(createInput('基準年収', ratioConfig.threshold, '万円', (val) => {
+                        const newConfig = { ...ratioConfig, threshold: parseInt(val) };
+                        updateBank(index, { ratioConfig: newConfig });
+                    }));
+
+                    // Below
+                    grid.appendChild(createInput('基準未満', ratioConfig.below * 100, '%', (val) => {
+                        const newConfig = { ...ratioConfig, below: parseFloat(val) / 100 };
+                        updateBank(index, { ratioConfig: newConfig });
+                    }));
+
+                    // Above
+                    grid.appendChild(createInput('基準以上', ratioConfig.above * 100, '%', (val) => {
+                        const newConfig = { ...ratioConfig, above: parseFloat(val) / 100 };
+                        updateBank(index, { ratioConfig: newConfig });
+                    }));
+
+                    ratioContainer.appendChild(grid);
+                    card.appendChild(ratioContainer);
+
+                    container.appendChild(card);
+                });
+
+                // Restore scroll if possible (might be slightly off due to height changes but better than top)
+                if (scrollPos > 0) window.scrollTo(0, scrollPos);
+            };
+
+            // Reset Handler
+            document.getElementById('reset-defaults').addEventListener('click', () => {
+                if (confirm('すべての設定を初期値に戻しますか？')) {
+                    localStorage.removeItem('custom_banks_v2');
+                    renderSettings();
+                    showSaveBanner();
+                }
+            });
+
+            // Add Bank Handler
+            document.getElementById('add-bank-form').addEventListener('submit', (e) => {
+                e.preventDefault();
+                const name = document.getElementById('new-name').value;
+                const type = document.getElementById('new-type').value;
+                const color = document.getElementById('new-color').value;
+                const stress = parseFloat(document.getElementById('new-stress').value);
+
+                // New logic inputs
+                const threshold = parseInt(document.getElementById('new-threshold').value);
+                const ratioBelow = parseFloat(document.getElementById('new-ratio-below').value);
+                const ratioAbove = parseFloat(document.getElementById('new-ratio-above').value);
+
+                const newBank = {
+                    name,
+                    type,
+                    color,
+                    stressRate: stress,
+                    ratioConfig: {
+                        threshold: threshold,
+                        below: ratioBelow / 100,
+                        above: ratioAbove / 100
+                    },
+                    description: `審査金利 ${stress}%`
+                };
+
+                addBank(newBank);
+                renderSettings();
+
+                // Reset form
+                e.target.reset();
+                // Scroll to bottom to see new bank
+                window.scrollTo(0, document.body.scrollHeight);
+            });
+
+            // Initial Render
+            renderSettings();
+        }
+
+        function showSaveBanner() {
+            const banner = document.getElementById('save-banner');
+            banner.classList.add('show');
+            setTimeout(() => {
+                banner.classList.remove('show');
+            }, 2000);
+        }
+    </script>
+</body>
+
+</html>
