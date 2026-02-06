@@ -66,8 +66,8 @@ const calculateMaxLoan = (income, currentDebt, years, bank) => {
     // 住宅ローンシミュレーションの基本式
     const loanAmount = availableMonthly * (1 - Math.pow(1 + monthlyRate, -numPayments)) / monthlyRate;
 
-    // 銀行ごとの一般的な限度額（年収の10倍程度）を上限とするが、計算ミスを防ぐため整理
-    const maxCap = income * 15; // 余裕を見て15倍を上限（実質的には返済比率で制限される）
+    // 銀行ごとの一般的な限度額（年収の10倍）を上限とする
+    const maxCap = income * 10;
     const finalAmount = Math.min(loanAmount, maxCap);
 
     return Math.floor(finalAmount);
