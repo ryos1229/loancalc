@@ -62,10 +62,15 @@ const calculateMaxLoan = (income, currentDebt, years, bank) => {
     const availableMonthly = availableAnnualPayment / 12;
     const monthlyRate = bank.stressRate / 100 / 12;
     const numPayments = years * 12;
+
+    // 住宅ローンシミュレーションの基本式
     const loanAmount = availableMonthly * (1 - Math.pow(1 + monthlyRate, -numPayments)) / monthlyRate;
 
-    const maxCap = income * 10;
-    return Math.min(Math.floor(loanAmount / 10000) * 10000, maxCap);
+    // 銀行ごとの一般的な限度額（年収の10倍程度）を上限とするが、計算ミスを防ぐため整理
+    const maxCap = income * 15; // 余裕を見て15倍を上限（実質的には返済比率で制限される）
+    const finalAmount = Math.min(loanAmount, maxCap);
+
+    return Math.floor(finalAmount);
 };
 
 // --- UI制御 (共通) ---
@@ -215,7 +220,7 @@ const initSettings = () => {
             ratioSection.innerHTML = '<h4 style="margin-bottom:0.75rem; color:var(--text-muted); font-size:0.9rem;">返済比率設定</h4>';
             const ratioGrid = document.createElement('div');
             ratioGrid.style = 'display:grid; grid-template-columns:repeat(auto-fit, minmax(140px,1fr)); gap:1rem;';
-            
+
             ratioGrid.appendChild(createInputGroup('基準年収', config.threshold, '万円', '1', (val) => {
                 const currentBanks = getBanks();
                 currentBanks[index].ratioConfig.threshold = parseInt(val);
