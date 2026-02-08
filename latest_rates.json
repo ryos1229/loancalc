@@ -1,0 +1,236 @@
+[
+  {
+    "id": "mufg",
+    "name": "三菱UFJ銀行",
+    "type": "都市銀行",
+    "color": "#dc2626",
+    "stressRate": 4.0,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 4.0% / 厳格な審査基準"
+  },
+  {
+    "id": "smbc",
+    "name": "三井住友銀行",
+    "type": "都市銀行",
+    "color": "#16a34a",
+    "stressRate": 4.0,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 4.0% / 安定性重視"
+  },
+  {
+    "id": "mizuho",
+    "name": "みずほ銀行",
+    "type": "都市銀行",
+    "color": "#2563eb",
+    "stressRate": 3.5,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 3.5% / 独自バランス"
+  },
+  {
+    "id": "resona",
+    "name": "りそな銀行",
+    "type": "都市銀行",
+    "color": "#65a30d",
+    "stressRate": 3.5,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 3.5% / 前向きな審査"
+  },
+  {
+    "id": "resona_plus",
+    "name": "りそな銀行（諸費用込）",
+    "type": "都市銀行",
+    "color": "#65a30d",
+    "stressRate": 4.0,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 4.0% / 諸費用ローン併用"
+  },
+  {
+    "id": "smzb_trust",
+    "name": "三井住友信託銀行",
+    "type": "信託銀行",
+    "color": "#0f4c81",
+    "stressRate": 3.25,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 3.25% / 属性重視"
+  },
+  {
+    "id": "yokohama",
+    "name": "横浜銀行",
+    "type": "地方銀行",
+    "color": "#005BAA",
+    "stressRate": 4.0,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 4.0% / 地方銀行最大手"
+  },
+  {
+    "id": "shizuoka",
+    "name": "静岡銀行",
+    "type": "地方銀行",
+    "color": "#f68b1e",
+    "stressRate": 3.8,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 3.8% / 柔軟な対応力"
+  },
+  {
+    "id": "gunma",
+    "name": "群馬銀行",
+    "type": "地方銀行",
+    "color": "#00A040",
+    "stressRate": 3.8,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 3.8% / 地域密着審査"
+  },
+  {
+    "id": "ja",
+    "name": "JAバンク",
+    "type": "協同組合",
+    "color": "#009944",
+    "stressRate": 3.5,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 3.5% / 組合員資格重視"
+  },
+  {
+    "id": "rokin_member",
+    "name": "中央労金（組合員）",
+    "type": "労働金庫",
+    "color": "#f5cd00",
+    "stressRate": 3.25,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 3.25% / 組合員特別優遇"
+  },
+  {
+    "id": "rokin_coop",
+    "name": "中央労金（生協会員）",
+    "type": "労働金庫",
+    "color": "#f5cd00",
+    "stressRate": 3.4,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 3.4% / 生協会員優遇"
+  },
+  {
+    "id": "sib_net",
+    "name": "住信SBIネット銀行",
+    "type": "ネット銀行",
+    "color": "#0284c7",
+    "stressRate": 3.2,
+    "ratioConfig": {
+      "threshold": 0,
+      "below": 0.35,
+      "above": 0.35
+    },
+    "description": "審査金利 3.2% / 比率一律35%"
+  },
+  {
+    "id": "shinsei",
+    "name": "SBI新生銀行",
+    "type": "ネット銀行",
+    "color": "#003F6C",
+    "stressRate": 3.2,
+    "ratioConfig": {
+      "threshold": 0,
+      "below": 0.35,
+      "above": 0.35
+    },
+    "description": "審査金利 3.2% / 合理的審査"
+  },
+  {
+    "id": "au_jibun",
+    "name": "auじぶん銀行",
+    "type": "ネット銀行",
+    "color": "#f97316",
+    "stressRate": 3.2,
+    "ratioConfig": {
+      "threshold": 0,
+      "below": 0.35,
+      "above": 0.35
+    },
+    "description": "審査金利 3.2% / 金利優遇重視"
+  },
+  {
+    "id": "aeon",
+    "name": "イオン銀行",
+    "type": "その他",
+    "color": "#D0006F",
+    "stressRate": 3.5,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 3.5% / 付帯サービス重視"
+  },
+  {
+    "id": "flat35",
+    "name": "フラット35",
+    "type": "その他",
+    "color": "#84cc16",
+    "stressRate": 1.91,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "実質金利 1.91% / 全期間固定"
+  },
+  {
+    "id": "chunan",
+    "name": "中南信用金庫",
+    "type": "信用金庫・組合",
+    "color": "#E60012",
+    "stressRate": 3.5,
+    "ratioConfig": {
+      "threshold": 400,
+      "below": 0.3,
+      "above": 0.35
+    },
+    "description": "審査金利 3.5% / 地域サポート"
+  }
+]

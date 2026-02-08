@@ -397,6 +397,23 @@ const initSettings = () => {
         };
     }
 
+    // 最新の金利ファイルを自動適用
+    const applyLatestBtn = document.getElementById('apply-latest-rates');
+    if (applyLatestBtn) {
+        applyLatestBtn.onclick = async (e) => {
+            e.preventDefault();
+            try {
+                const response = await fetch('latest_rates.json');
+                if (!response.ok) throw new Error('Network response was not ok');
+                const content = await response.text();
+                processImport(content);
+            } catch (err) {
+                alert('最新データの取得に失敗しました。');
+                console.error(err);
+            }
+        };
+    }
+
     render();
 };
 
