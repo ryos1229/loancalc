@@ -414,6 +414,25 @@ const initSettings = () => {
         };
     }
 
+    // 管理者用：最新金利JSONを生成
+    const adminGenBtn = document.getElementById('admin-generate-json');
+    if (adminGenBtn) {
+        adminGenBtn.onclick = () => {
+            const banks = getBanks();
+            const dataStr = JSON.stringify(banks, null, 2);
+            const blob = new Blob([dataStr], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'latest_rates.json';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            alert('latest_rates.json をダウンロードしました。このファイルをプロジェクトフォルダに配置して公開してください。');
+        };
+    }
+
     render();
 };
 
