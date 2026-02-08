@@ -414,23 +414,64 @@ const initSettings = () => {
         };
     }
 
+    // 新規銀行追加フォームの開閉
+    const toggleAddBtn = document.getElementById('toggle-add-form');
+    const addSection = document.getElementById('add-bank-section');
+    const cancelAddBtn = document.getElementById('cancel-add');
+
+    if (toggleAddBtn && addSection) {
+        toggleAddBtn.onclick = () => {
+            const isHidden = addSection.style.display === 'none';
+            addSection.style.display = isHidden ? 'block' : 'none';
+            if (isHidden) {
+                window.scrollTo({
+                    top: addSection.offsetTop - 100,
+                    behavior: 'smooth'
+                });
+            }
+        };
+    }
+
+    if (cancelAddBtn && addSection) {
+        cancelAddBtn.onclick = () => {
+            addSection.style.display = 'none';
+        };
+    }
+
     // 管理者用：最新金利JSONを生成
     const adminGenBtn = document.getElementById('admin-generate-json');
     if (adminGenBtn) {
-        adminGenBtn.onclick = () => {
-            const banks = getBanks();
-            const dataStr = JSON.stringify(banks, null, 2);
-            const blob = new Blob([dataStr], { type: 'application/json' });
-            const url = URL.createObjectURL(blob);
-            const a = document.createElement('a');
-            a.href = url;
-            a.download = 'latest_rates.json';
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-            URL.revokeObjectURL(url);
-            alert('latest_rates.json をダウンロードしました。このファイルをプロジェクトフォルダに配置して公開してください。');
-        };
+        // addEventListenerを使用し、確実に動作するように改善
+        adminGenBtn.addEventListener('click', (e) => {
+            e.preventDefault();
+            try {
+                const banks = getBanks();
+                // メタデータを削除してクリーンなデータを保存
+                const cleanBanks = banks.map(({ getRepaymentRatio, ...rest }) => rest);
+                const dataStr = JSON.stringify(cleanBanks, null, 2);
+
+                const blob = new Blob([dataStr], { type: 'application/json' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = 'latest_rates.json';
+
+                // DOMに追加してクリックをシミュレート
+                document.body.appendChild(a);
+                a.click();
+
+                // 後処理
+                setTimeout(() => {
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                }, 100);
+
+                alert('latest_rates.json をダウンロードしました。\nこのファイルをプロジェクトフォルダに配置してGitHubにアップロードしてください。');
+            } catch (err) {
+                console.error('Failed to generate JSON:', err);
+                alert('JSONの生成に失敗しました。コンソールを確認してください。');
+            }
+        });
     }
 
     render();

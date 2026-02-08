@@ -218,6 +218,8 @@
                 style="display: flex; justify-content: space-between; align-items: center; flex-wrap: wrap; gap: 1rem;">
                 <p class="subtitle" style="margin-bottom: 0;">各金融機関の審査基準をカスタマイズできます。</p>
                 <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
+                    <button id="toggle-add-form" class="reset-btn"
+                        style="background: var(--primary); color: white; border-color: var(--primary);">新規追加</button>
                     <button id="export-settings" class="reset-btn"
                         style="border-color: var(--primary); color: var(--primary);">設定を書き出し</button>
                     <button id="import-trigger" class="reset-btn">設定を取り込み</button>
@@ -227,13 +229,10 @@
             </div>
         </div>
 
-        <div id="settings-list">
-            <!-- script.jsによって生成されます -->
-        </div>
-
-        <!-- 新規追加フォーム -->
-        <div class="add-bank-section">
-            <h2 style="margin-bottom: 1.5rem; font-size: 1.4rem;">新規銀行を追加</h2>
+        <!-- 新規追加フォーム (初期状態は非表示) -->
+        <div id="add-bank-section" class="add-bank-section"
+            style="display: none; margin-bottom: 2rem; border-top: none; padding-top: 0;">
+            <h2 style="margin-bottom: 1.5rem; font-size: 1.2rem;">新規銀行を追加</h2>
             <div class="card add-card">
                 <form id="add-bank-form">
                     <div class="form-group" style="margin-bottom: 1rem;">
@@ -302,9 +301,16 @@
                         </div>
                     </div>
 
-                    <button type="submit" class="btn-primary">追加する</button>
+                    <div style="display: flex; gap: 1rem;">
+                        <button type="submit" class="btn-primary" style="flex: 2; margin-top: 0;">追加する</button>
+                        <button type="button" id="cancel-add" class="reset-btn" style="flex: 1;">キャンセル</button>
+                    </div>
                 </form>
             </div>
+        </div>
+
+        <div id="settings-list">
+            <!-- script.jsによって生成されます -->
         </div>
     </div>
 
