@@ -403,12 +403,32 @@ const initSettings = () => {
         applyLatestBtn.onclick = async (e) => {
             e.preventDefault();
             try {
-                const response = await fetch('latest_rates.json');
+                // キャッシュ対策としてタイムスタンプを付与
+                const response = await fetch('latest_rates.json?t=' + Date.now());
                 if (!response.ok) throw new Error('Network response was not ok');
                 const content = await response.text();
-                processImport(content);
+
+                // 自動適用の場合は確認ダイアログを出さずに即時反映
+                const imported = JSON.parse(content);
+                if (!Array.isArray(imported)) throw new Error('Invalid format');
+
+                saveBanks(imported);
+                render();
+                showSaveBanner();
+
+                // 完了メッセージを表示
+                const statusP = applyLatestBtn.nextElementSibling;
+                if (statusP) {
+                    const originalText = statusP.innerText;
+                    statusP.innerText = '✅ 最新の金利を適用しました！';
+                    statusP.style.color = '#10b981';
+                    setTimeout(() => {
+                        statusP.innerText = originalText;
+                        statusP.style.color = '';
+                    }, 3000);
+                }
             } catch (err) {
-                alert('最新データの取得に失敗しました。');
+                alert('最新データの取得に失敗しました。プロジェクト内に latest_rates.json が存在するか確認してください。');
                 console.error(err);
             }
         };
