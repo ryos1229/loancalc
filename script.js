@@ -387,6 +387,51 @@ const initSettings = () => {
         } catch (err) { alert('失敗しました。'); }
     });
 
+    // 設定のエクスポート（書き出し）
+    document.getElementById('export-settings')?.addEventListener('click', () => {
+        const data = getBanks();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = `loancalc_settings_${new Date().toISOString().slice(0, 10)}.json`;
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
+    // 設定のインポート（読み込み）ボタン
+    document.getElementById('import-settings')?.addEventListener('click', () => {
+        document.getElementById('import-file').click();
+    });
+
+    // ファイル選択時の処理
+    document.getElementById('import-file')?.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+        reader.onload = (event) => {
+            try {
+                const importedData = JSON.parse(event.target.result);
+                if (!Array.isArray(importedData)) {
+                    throw new Error('無効なデータ形式です。');
+                }
+                if (confirm('現在の設定を上書きして読み込みますか？')) {
+                    saveBanks(importedData);
+                    render();
+                    alert('設定を読み込みました。');
+                }
+            } catch (err) {
+                console.error(err);
+                alert('ファイルの読み込みに失敗しました。正しいJSONファイルを選択してください。');
+            }
+        };
+        reader.readAsText(file);
+        e.target.value = ''; // 同じファイルを再度選択できるようにリセット
+    });
+
     const addForm = document.getElementById('add-bank-form');
     if (addForm) {
         addForm.addEventListener('submit', (e) => {

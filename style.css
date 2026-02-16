@@ -149,6 +149,7 @@ input[type="text"] {
     font-size: 1.1rem;
     font-weight: 600;
     transition: all 0.2s;
+    box-shadow: none;
 }
 
 input:focus {
@@ -174,11 +175,13 @@ input:focus {
     cursor: pointer;
     width: 100%;
     transition: all 0.2s;
+    box-shadow: none;
 }
 
 .btn-primary:hover {
     background: var(--primary-dark);
     transform: translateY(-1px);
+    box-shadow: none;
 }
 
 /* Results */
@@ -202,6 +205,7 @@ input:focus {
 .result-card:hover {
     transform: translateY(-4px);
     background: rgba(255, 255, 255, 0.08);
+    box-shadow: none;
 }
 
 .bank-header {
@@ -249,6 +253,7 @@ input:focus {
 .btn-apply:hover {
     background: var(--primary);
     border-color: var(--primary);
+    color: white;
 }
 
 /* Payment Sim specific */
@@ -264,6 +269,8 @@ input:focus {
     padding: 1.5rem;
     border-radius: 12px;
     text-align: center;
+    border: none;
+    box-shadow: none;
 }
 
 .stat-label {
@@ -275,10 +282,12 @@ input:focus {
 .stat-value {
     font-size: 1.5rem;
     font-weight: 700;
+    color: var(--text-main);
 }
 
 .stat-value span {
     font-size: 0.8rem;
+    color: var(--text-muted);
 }
 
 /* Schedule Table */
@@ -286,6 +295,7 @@ input:focus {
     overflow-x: auto;
     background: rgba(0, 0, 0, 0.2);
     border-radius: 12px;
+    border: none;
 }
 
 table {
@@ -299,41 +309,19 @@ th {
     padding: 1rem;
     background: rgba(255, 255, 255, 0.05);
     color: var(--text-muted);
+    font-weight: normal;
+    border-bottom: none;
 }
 
 td {
     padding: 0.8rem 1rem;
     border-bottom: 1px solid var(--border);
+    color: var(--text-main);
 }
 
 .year-row {
     background: rgba(37, 99, 235, 0.1);
-}
-
-/* Responsive Sliders */
-.slider-group {
-    margin-top: 0.5rem;
-}
-
-input[type="range"] {
-    width: 100%;
-    height: 6px;
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 5px;
-    outline: none;
-    -webkit-appearance: none;
-    appearance: none;
-}
-
-input[type="range"]::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    appearance: none;
-    width: 18px;
-    height: 18px;
-    background: var(--primary);
-    border-radius: 50%;
-    cursor: pointer;
-    box-shadow: 0 0 10px rgba(37, 99, 235, 0.5);
+    font-weight: normal;
 }
 
 @media print {

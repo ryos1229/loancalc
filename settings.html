@@ -85,6 +85,11 @@
             </p>
             <div style="display: flex; gap: 0.5rem; flex-wrap: wrap;">
                 <button id="apply-latest-rates" class="btn-primary" style="width: auto;">最新の金利を適用する</button>
+                <button id="export-settings" class="btn-primary"
+                    style="width: auto; background: var(--primary-light);">設定を書き出し</button>
+                <button id="import-settings" class="btn-primary"
+                    style="width: auto; background: var(--primary-light);">設定を読み込み</button>
+                <input type="file" id="import-file" style="display: none;" accept=".json">
                 <button id="toggle-add-form" class="btn-primary"
                     style="width: auto; background: var(--accent);">新規銀行を追加</button>
                 <button id="reset-defaults" class="btn-primary"
