@@ -170,7 +170,69 @@ window.updatePayment = () => {
 };
 
 // --- 初期化 ---
+// --- 初期化 ---
 document.addEventListener('DOMContentLoaded', () => {
+    // 自動更新ロジック (その日の初回起動時)
+    const runAutoUpdate = async () => {
+        const today = new Date().toLocaleDateString('ja-JP');
+        const lastUpdate = localStorage.getItem('last_auto_update_date');
+
+        if (lastUpdate === today) return;
+
+        try {
+            const res = await fetch('latest_rates.json?t=' + Date.now());
+            if (!res.ok) return;
+            const newRates = await res.json();
+            if (!Array.isArray(newRates)) return;
+
+            let currentBanks = getBanks();
+            let updated = false;
+            const bankMap = new Map(currentBanks.map(b => [b.id, b]));
+
+            newRates.forEach(newBank => {
+                if (bankMap.has(newBank.id)) {
+                    // 既存銀行の更新（マージ）
+                    const existing = bankMap.get(newBank.id);
+                    // 重要な数値が変わっていたら更新
+                    if (existing.stressRate !== newBank.stressRate ||
+                        existing.actualRate !== newBank.actualRate ||
+                        JSON.stringify(existing.ratioConfig) !== JSON.stringify(newBank.ratioConfig)) {
+
+                        Object.assign(existing, newBank);
+                        updated = true;
+                    }
+                } else {
+                    // 新規/復活銀行の追加
+                    currentBanks.push(hydrateBank(newBank));
+                    updated = true;
+                }
+            });
+
+            if (updated) {
+                const dataToSave = currentBanks.map(({ getRepaymentRatio, ...rest }) => rest);
+                localStorage.setItem(STORAGE_KEY, JSON.stringify(dataToSave));
+
+                // 通知の表示
+                const msg = document.createElement('div');
+                msg.textContent = '最新の金利情報を自動適用しました';
+                msg.style.cssText = 'position:fixed; top:20px; right:20px; background:var(--primary); color:white; padding:12px 24px; border-radius:8px; z-index:9999; box-shadow:0 4px 12px rgba(0,0,0,0.15); font-weight:bold; animation: fadeOut 0.5s ease-in 4s forwards;';
+                document.body.appendChild(msg);
+                setTimeout(() => msg.remove(), 5000);
+
+                // 設定画面ならリロード、そうでなければ再計算
+                if (document.getElementById('settings-list')) {
+                    setTimeout(() => location.reload(), 1000);
+                } else {
+                    if (typeof window.updatePayment === 'function') window.updatePayment();
+                }
+            }
+            localStorage.setItem('last_auto_update_date', today);
+        } catch (e) {
+            console.error('Auto update failed:', e);
+        }
+    };
+    runAutoUpdate();
+
     // タブ
     // タブ
     document.querySelectorAll('.tab-btn').forEach(btn => {

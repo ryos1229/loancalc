@@ -521,11 +521,17 @@ td {
     }
 
     /* Hide tab content that isn't active */
-    .tab-content {
-        display: none;
-    }
-
     .tab-content.active {
         display: block !important;
+    }
+}
+
+@keyframes fadeOut {
+    from {
+        opacity: 1;
+    }
+
+    to {
+        opacity: 0;
     }
 }
