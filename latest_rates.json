@@ -5,7 +5,7 @@
     "type": "都市銀行",
     "color": "#dc2626",
     "stressRate": 3.54,
-    "actualRate": 0.670,
+    "actualRate": 0.67,
     "ratioConfig": {
       "threshold": 400,
       "below": 0.35,
@@ -19,7 +19,7 @@
     "type": "都市銀行",
     "color": "#16a34a",
     "stressRate": 4,
-    "actualRate": 0.595,
+    "actualRate": 0.925,
     "ratioConfig": {
       "threshold": 400,
       "below": 0.35,
@@ -33,7 +33,7 @@
     "type": "都市銀行",
     "color": "#2563eb",
     "stressRate": 3.5,
-    "actualRate": 0.525,
+    "actualRate": 0.775,
     "ratioConfig": {
       "threshold": 400,
       "below": 0.35,
@@ -47,7 +47,7 @@
     "type": "都市銀行",
     "color": "#65a30d",
     "stressRate": 2.9,
-    "actualRate": 0.640,
+    "actualRate": 0.64,
     "ratioConfig": {
       "threshold": 400,
       "below": 0.35,
@@ -61,7 +61,7 @@
     "type": "都市銀行",
     "color": "#65a30d",
     "stressRate": 3.3,
-    "actualRate": 0.840,
+    "actualRate": 0.72,
     "ratioConfig": {
       "threshold": 400,
       "below": 0.35,
@@ -89,7 +89,7 @@
     "type": "地方銀行",
     "color": "#005BAA",
     "stressRate": 3.2,
-    "actualRate": 0.780,
+    "actualRate": 0.75,
     "ratioConfig": {
       "threshold": 400,
       "below": 0.35,
@@ -103,7 +103,7 @@
     "type": "地方銀行",
     "color": "#f68b1e",
     "stressRate": 3,
-    "actualRate": 0.900,
+    "actualRate": 0.9,
     "ratioConfig": {
       "threshold": 400,
       "below": 0.35,
@@ -131,9 +131,9 @@
     "type": "協同組合",
     "color": "#009944",
     "stressRate": 1.5,
-    "actualRate": 0.875,
+    "actualRate": 0.795,
     "ratioConfig": {
-      "threshold": 400,
+      "threshold": 800,
       "below": 0.35,
       "above": 0.4
     },
@@ -145,7 +145,7 @@
     "type": "労働金庫",
     "color": "#f5cd00",
     "stressRate": 0.965,
-    "actualRate": 0.875,
+    "actualRate": 0.965,
     "ratioConfig": {
       "threshold": 400,
       "below": 0.35,
@@ -159,11 +159,11 @@
     "type": "労働金庫",
     "color": "#f5cd00",
     "stressRate": 1.195,
-    "actualRate": 1.055,
+    "actualRate": 1.195,
     "ratioConfig": {
       "threshold": 500,
-      "below": 0.35,
-      "above": 0.4
+      "below": 0.3,
+      "above": 0.35
     },
     "description": "審査金利 3.2%(推定) / 生協優遇"
   },
@@ -187,7 +187,7 @@
     "type": "ネット銀行",
     "color": "#003F6C",
     "stressRate": 3,
-    "actualRate": 0.640,
+    "actualRate": 0.64,
     "ratioConfig": {
       "threshold": 300,
       "below": 0,
@@ -201,7 +201,7 @@
     "type": "ネット銀行",
     "color": "#f97316",
     "stressRate": 2.841,
-    "actualRate": 0.679,
+    "actualRate": 0.879,
     "ratioConfig": {
       "threshold": 400,
       "below": 0.3,
@@ -215,7 +215,7 @@
     "type": "ネット銀行",
     "color": "#D0006F",
     "stressRate": 3.5,
-    "actualRate": 0.780,
+    "actualRate": 0.83,
     "ratioConfig": {
       "threshold": 400,
       "below": 0.4,
@@ -229,7 +229,7 @@
     "type": "その他",
     "color": "#84cc16",
     "stressRate": 2.08,
-    "actualRate": 2.260,
+    "actualRate": 2.26,
     "ratioConfig": {
       "threshold": 400,
       "below": 0.3,
