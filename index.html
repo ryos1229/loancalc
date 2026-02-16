@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FP荒木くん | 住宅ローン総合シミュレーター</title>
+    <meta name="description" content="年収から借入可能額を調べ、月々の返済額や総支払額を詳細にシミュレーションできる住宅ローン総合計算ツール。">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;800&family=Noto+Sans+JP:wght@400;500;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+    <div class="container">
+        <header>
+            <div>
+                <h1>FP荒木くん</h1>
+                <p style="font-size: 0.8rem; color: var(--text-muted);">住宅ローン総合シミュレーター</p>
+            </div>
+            <div class="header-actions no-print">
+                <a href="settings.html" class="tab-btn"
+                    style="display: flex; align-items: center; gap: 0.5rem; text-decoration: none;">
+                    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                        <circle cx="12" cy="12" r="3"></circle>
+                        <path
+                            d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z">
+                        </path>
+                    </svg>
+                    設定
+                </a>
+            </div>
+        </header>
+
+        <nav class="nav-tabs no-print">
+            <button class="tab-btn active" data-tab="tab-borrow">借入可能額を調べる</button>
+            <button class="tab-btn" data-tab="tab-payment">返済額を計算する</button>
+        </nav>
+
+        <!-- Tab 1: Borrowable Amount -->
+        <div id="tab-borrow" class="tab-content active">
+            <div class="card">
+                <p class="subtitle" style="margin-bottom: 1.5rem; color: var(--text-muted);">
+                    年収と現在の借入状況から、主要な銀行タイプごとの借入可能額を計算します。</p>
+                <form id="borrow-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label for="income">昨年の税込年収</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="income" placeholder="例: 500" value="500" min="0" required>
+                                <span class="unit">万円</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="debt">現在の借入の年間返済額</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="debt" placeholder="例: 0" value="0" min="0">
+                                <span class="unit">万円/年</span>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label for="borrow-years">希望ローン年数</label>
+                            <div class="input-wrapper">
+                                <input type="number" id="borrow-years" value="35" min="1" max="50" required>
+                                <span class="unit">年</span>
+                            </div>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn-primary">計算する</button>
+                </form>
+            </div>
+
+            <div id="borrow-results-actions" class="no-print"
+                style="display: none; justify-content: flex-end; gap: 1rem; margin-bottom: 1rem;">
+                <button id="borrow-print-btn" class="tab-btn">印刷する</button>
+            </div>
+
+            <div id="borrow-results" class="results-grid">
+                <!-- Results will be injected here -->
+            </div>
+        </div>
+
+        <!-- Tab 2: Monthly Payment -->
+        <div id="tab-payment" class="tab-content">
+            <div class="card">
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label for="loan-amount">借入額</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="loan-amount" value="3000" min="0" step="10">
+                            <span class="unit">万円</span>
+                        </div>
+                        <div class="slider-group">
+                            <input type="range" id="loan-amount-range" min="0" max="10000" step="100" value="3000">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="loan-years">借入期間</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="loan-years" value="35" min="1" max="50">
+                            <span class="unit">年</span>
+                        </div>
+                        <div class="slider-group">
+                            <input type="range" id="loan-years-range" min="1" max="50" step="1" value="35">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="interest-rate">年利</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="interest-rate" value="0.675" min="0" step="0.001">
+                            <span class="unit">%</span>
+                        </div>
+                        <div class="slider-group">
+                            <input type="range" id="interest-rate-range" min="0" max="10" step="0.001" value="0.675">
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="bonus-payment">ボーナス払い額 (1回分・年2回)</label>
+                        <div class="input-wrapper">
+                            <input type="number" id="bonus-payment" value="0" min="0" step="1">
+                            <span class="unit">万円</span>
+                        </div>
+                        <div class="slider-group">
+                            <input type="range" id="bonus-payment-range" min="0" max="100" step="1" value="0">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label>返済方式</label>
+                    <div style="display: flex; gap: 1rem; margin-top: 0.5rem;">
+                        <input type="radio" id="type-equal-total" name="repayment-type" value="equal-total" checked>
+                        <label for="type-equal-total" style="cursor: pointer; margin-bottom: 0;">元利均等</label>
+                        <input type="radio" id="type-equal-principal" name="repayment-type" value="equal-principal">
+                        <label for="type-equal-principal" style="cursor: pointer; margin-bottom: 0;">元金均等</label>
+                    </div>
+                </div>
+            </div>
+
+            <div id="payment-results-actions" class="no-print"
+                style="display: flex; justify-content: flex-end; gap: 1rem; margin-bottom: 1rem;">
+                <button id="payment-print-btn" class="tab-btn">印刷する</button>
+            </div>
+
+            <div class="dashboard">
+                <div class="stat-box">
+                    <div class="stat-label" id="monthly-label">月々支払額</div>
+                    <div class="stat-value" id="monthly-payment">0<span>円</span></div>
+                </div>
+                <div id="bonus-item" class="stat-box" style="display: none;">
+                    <div class="stat-label">ボーナス月加算額</div>
+                    <div class="stat-value" id="bonus-added">0<span>円</span></div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">総支払額</div>
+                    <div class="stat-value" id="total-payment">0<span>円</span></div>
+                </div>
+                <div class="stat-box">
+                    <div class="stat-label">うち総利息</div>
+                    <div class="stat-value" id="total-interest" style="color: var(--accent);">0<span>円</span></div>
+                </div>
+            </div>
+
+            <div class="card" style="margin-top: 2rem;">
+                <!-- 返済予定表 -->
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+                    <h2 style="font-size: 1.25rem;">返済予定表</h2>
+                    <div class="toggle-group">
+                        <label><input type="radio" name="schedule-freq" value="yearly" checked> 年単位</label>
+                        <label><input type="radio" name="schedule-freq" value="monthly"> 月単位</label>
+                    </div>
+                </div>
+                <div class="table-container">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>回数/年</th>
+                                <th>返済額</th>
+                                <th>元金支払</th>
+                                <th>利息支払</th>
+                                <th>ボーナス</th>
+                                <th>残高</th>
+                            </tr>
+                        </thead>
+                        <tbody id="schedule-body">
+                            <!-- JSで生成 -->
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div id="print-header" class="print-only" style="display: none;">
+                <h1 style="color: black !important; -webkit-text-fill-color: initial;">FP荒木くん 試算レポート</h1>
+                <p id="print-date"></p>
+            </div>
+        </div>
+
+        <script src="script.js"></script>
+</body>
+
+</html>
