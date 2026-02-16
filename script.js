@@ -172,12 +172,26 @@ window.updatePayment = () => {
 // --- 初期化 ---
 document.addEventListener('DOMContentLoaded', () => {
     // タブ
+    // タブ
     document.querySelectorAll('.tab-btn').forEach(btn => {
         btn.onclick = () => {
+            if (!btn.dataset.tab) return; // data-tab属性がないボタン（印刷ボタンなど）は無視
             document.querySelectorAll('.tab-btn').forEach(t => t.classList.remove('active'));
             document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+
+            // 全てのtab-btnからactiveを消すと、印刷ボタンや設定ボタンのスタイルも変わるかもしれないが、
+            // 印刷ボタンは常時非activeでよいならOK。
+            // ただし、nav-tabs内のボタンだけを制御したいなら、クラスで絞るか、親要素で絞るべき。
+            // ここでは簡易的に、data-tabを持つものだけを「タブ」として扱う。
+            // さらに、activeクラスの付与は「data-tabを持つボタン」間で行うべき。
+
+            // 修正: activeクラスの操作も data-tab を持つ要素に限定する
+            document.querySelectorAll('.tab-btn[data-tab]').forEach(t => t.classList.remove('active'));
+
             btn.classList.add('active');
-            document.getElementById(btn.dataset.tab).classList.add('active');
+            const target = document.getElementById(btn.dataset.tab);
+            if (target) target.classList.add('active');
+
             if (btn.dataset.tab === 'tab-payment') window.updatePayment();
         };
     });
