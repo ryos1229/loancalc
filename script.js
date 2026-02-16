@@ -449,6 +449,22 @@ const initSettings = () => {
         } catch (err) { alert('失敗しました。'); }
     });
 
+    // マスター更新用JSONのダウンロード
+    document.getElementById('download-master-json')?.addEventListener('click', () => {
+        if (!confirm('現在の設定を「latest_rates.json」としてダウンロードしますか？\n（このファイルをGitHubへアップロードすると、全ユーザーのデフォルト設定が更新されます）')) return;
+
+        const data = getBanks();
+        const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+        const url = URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = 'latest_rates.json';
+        document.body.appendChild(a);
+        a.click();
+        document.body.removeChild(a);
+        URL.revokeObjectURL(url);
+    });
+
     // 設定のエクスポート（書き出し）
     document.getElementById('export-settings')?.addEventListener('click', () => {
         const data = getBanks();
@@ -483,7 +499,14 @@ const initSettings = () => {
                 if (confirm('現在の設定を上書きして読み込みますか？')) {
                     saveBanks(importedData);
                     render();
-                    alert('設定を読み込みました。');
+
+                    if (confirm('このデータを本日の最新金利情報として登録しますか？\n（OKを押すと、本日の自動更新済みとして扱われます）')) {
+                        const today = new Date().toLocaleDateString('ja-JP');
+                        localStorage.setItem('last_auto_update_date', today);
+                        alert('設定を読み込み、本日の最新情報として登録しました。');
+                    } else {
+                        alert('設定を読み込みました。');
+                    }
                 }
             } catch (err) {
                 console.error(err);
