@@ -102,7 +102,7 @@
     "name": "静岡銀行",
     "type": "地方銀行",
     "color": "#f68b1e",
-    "stressRate": 3.125,
+    "stressRate": 3,
     "actualRate": 1.025,
     "ratioConfig": {
       "threshold": 400,
