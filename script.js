@@ -1,6 +1,6 @@
 // --- データ定義 & 管理 ---
 const DEFAULT_BANKS = [
-    { id: 'mufg', name: '三菱UFJ銀行', type: '都市銀行', color: '#dc2626', stressRate: 4.9, actualRate: 0.945, ratioConfig: { threshold: 400, below: 0.35, above: 0.4 }, description: '審査金利 4.0% / 審査厳格' },
+    { id: 'mufg', name: '三菱UFJ銀行', type: '都市銀行', color: '#dc2626', stressRate: 4, actualRate: 0.945, ratioConfig: { threshold: 400, below: 0.35, above: 0.4 }, description: '審査金利 4.0% / 厳格審査' },
     { id: 'smbc', name: '三井住友銀行', type: '都市銀行', color: '#16a34a', stressRate: 3.125, actualRate: 1.275, ratioConfig: { threshold: 400, below: 0.35, above: 0.4 }, description: '審査金利 4.0% / 安定重視' },
     { id: 'mizuho', name: 'みずほ銀行', type: '都市銀行', color: '#2563eb', stressRate: 3.75, actualRate: 1.025, ratioConfig: { threshold: 400, below: 0.35, above: 0.4 }, description: '審査金利 3.5% / バランス' },
     { id: 'resona', name: 'りそな銀行', type: '都市銀行', color: '#65a30d', stressRate: 3.5, actualRate: 0.95, ratioConfig: { threshold: 400, below: 0.35, above: 0.4 }, description: '審査金利 3.5% / 柔軟対応' },

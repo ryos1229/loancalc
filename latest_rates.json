@@ -4,7 +4,7 @@
     "name": "三菱UFJ銀行",
     "type": "都市銀行",
     "color": "#dc2626",
-    "stressRate": 4.9,
+    "stressRate": 4,
     "actualRate": 0.945,
     "ratioConfig": {
       "threshold": 400,
